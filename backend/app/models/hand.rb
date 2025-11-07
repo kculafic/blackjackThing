@@ -35,11 +35,3 @@ class Hand < ApplicationRecord
     total
   end
 end
-
-# == Schema Information
-# Table name: hands
-#  id         :bigint           not null, primary key
-#  cards      :jsonb            default([]), not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#

@@ -20,14 +20,3 @@ class Card < ApplicationRecord
     "#{rank} of #{suit}"
   end
 end
-
-# == Schema Information
-#
-# Table name: cards
-#
-#  id         :bigint           not null, primary key
-#  suit       :string           not null
-#  rank       :string           not null
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#   

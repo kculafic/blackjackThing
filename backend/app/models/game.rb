@@ -22,22 +22,3 @@ class Game < ApplicationRecord
     end
   end
 end
-
-# == Schema Information
-#
-# Table name: games
-#  id             :bigint           not null, primary key
-#  status         :string           default("ongoing"), not null
-#  created_at     :datetime         not null
-#  updated_at     :datetime         not null
-#  deck_id        :bigint           not null
-#  player_hand_id :bigint           not null
-#  dealer_hand_id :bigint           not null
-# Indexes
-#  index_games_on_dealer_hand_id  (dealer_hand_id)
-#  index_games_on_deck_id         (deck_id)
-#  index_games_on_player_hand_id  (player_hand_id)
-# Foreign Keys
-#  fk_rails_...  (dealer_hand_id => hands.id)
-#  fk_rails_...  (deck_id => decks.id)
-#  fk_rails_...  (player_hand_id => hands.id)
