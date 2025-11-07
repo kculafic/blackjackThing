@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_07_222047) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_07_223213) do
   create_table "cards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "rank"
@@ -24,9 +24,25 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_07_222047) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "games", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "dealer_hand_id"
+    t.integer "deck_id"
+    t.integer "player_hand_id"
+    t.string "status"
+    t.datetime "updated_at", null: false
+    t.index ["dealer_hand_id"], name: "index_games_on_dealer_hand_id"
+    t.index ["deck_id"], name: "index_games_on_deck_id"
+    t.index ["player_hand_id"], name: "index_games_on_player_hand_id"
+  end
+
   create_table "hands", force: :cascade do |t|
     t.json "cards"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_foreign_key "games", "decks"
+  add_foreign_key "games", "hands", column: "dealer_hand_id"
+  add_foreign_key "games", "hands", column: "player_hand_id"
 end
