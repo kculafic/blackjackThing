@@ -16,6 +16,8 @@ class Deck < ApplicationRecord
   end
 
   def draw
-    cards.shift
+    card = cards.shift
+    save
+    card
   end
 end
