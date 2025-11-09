@@ -18,6 +18,7 @@ class Game < ApplicationRecord
   def check_for_blackjack
     if player_hand.calculate_value == 21
       self.status = 'player_blackjack'
+      self.player_balance += (bet_amount * 2.5)
       save
     end
   end
@@ -54,12 +55,15 @@ class Game < ApplicationRecord
 
     if dealer_value > 21
       self.status = 'player_wins'
+      self.player_balance += (bet_amount * 2)
     elsif player_value > dealer_value
       self.status = 'player_wins'
+      self.player_balance += (bet_amount * 2)
     elsif dealer_value > player_value
       self.status = 'dealer_wins'
     else
       self.status = 'push'
+      self.player_balance += bet_amount
     end
 
     save
