@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_11_07_223213) do
+ActiveRecord::Schema[8.1].define(version: 2025_11_09_193232) do
   create_table "cards", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "rank"
@@ -25,9 +25,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_11_07_223213) do
   end
 
   create_table "games", force: :cascade do |t|
+    t.decimal "bet_amount", precision: 10, scale: 2, default: "0.0"
     t.datetime "created_at", null: false
     t.integer "dealer_hand_id"
     t.integer "deck_id"
+    t.decimal "player_balance", precision: 10, scale: 2, default: "100.0"
     t.integer "player_hand_id"
     t.string "status"
     t.datetime "updated_at", null: false
