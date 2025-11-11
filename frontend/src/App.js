@@ -5,6 +5,7 @@ import BettingForm from './components/BettingForm';
 import Hand from './components/Hand';
 import BalanceDisplay from './components/BalanceDisplay';
 import GameControls from './components/GameControls';
+import SessionStats from './components/SessionStats';
 
 function App() {
   const [game, setGame] = useState(null);
@@ -13,6 +14,8 @@ function App() {
   const [showBettingForm, setShowBettingForm] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sessionStartBalance, setSessionStartBalance] = useState(null);
+  const [isFirstGame, setIsFirstGame] = useState(true);
 
   const handleNewGame = async () => {
     setIsLoading(true);
@@ -21,6 +24,12 @@ function App() {
       const newGame = await createGame(betAmount, startingBalance);
       setGame(newGame);
       setShowBettingForm(false);
+
+      // Track session starting balance (only on first game)
+      if (isFirstGame) {
+        setSessionStartBalance(startingBalance);
+        setIsFirstGame(false);
+      }
     } catch (err) {
       setError('Failed to start game. Please try again.');
       console.error('Error creating game:', err);
@@ -68,7 +77,9 @@ function App() {
     <div className="container mt-5">
       <div className="row justify-content-center">
         <div className="col-md-8">
-          <h1 className="text-center mb-4">♠ Blackjack ♥</h1>
+          <h1 className="text-center mb-4 pt-3">
+            <span className="text-danger">♥</span>♣ Blackjack ♠<span className="text-danger">♦</span>
+          </h1>
 
           {error && (
             <div className="alert alert-danger alert-dismissible fade show" role="alert">
@@ -90,11 +101,17 @@ function App() {
               setBetAmount={setBetAmount}
               onStartGame={handleNewGame}
               isLoading={isLoading}
+              isFirstGame={isFirstGame}
             />
           )}
 
           {game && (
             <div>
+              <SessionStats
+                sessionStartBalance={sessionStartBalance}
+                currentBalance={game.player_balance}
+              />
+
               <BalanceDisplay
                 balance={game.player_balance}
                 bet={game.bet_amount}
