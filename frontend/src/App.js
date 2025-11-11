@@ -11,27 +11,57 @@ function App() {
   const [startingBalance, setStartingBalance] = useState(100);
   const [betAmount, setBetAmount] = useState(5);
   const [showBettingForm, setShowBettingForm] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleNewGame = async () => {
-    const newGame = await createGame(betAmount, startingBalance);
-    setGame(newGame);
-    setShowBettingForm(false);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const newGame = await createGame(betAmount, startingBalance);
+      setGame(newGame);
+      setShowBettingForm(false);
+    } catch (err) {
+      setError('Failed to start game. Please try again.');
+      console.error('Error creating game:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleHit = async () => {
-    const updatedGame = await hit(game.id);
-    setGame(updatedGame);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const updatedGame = await hit(game.id);
+      setGame(updatedGame);
+    } catch (err) {
+      setError('Failed to draw card. Please try again.');
+      console.error('Error hitting:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleStand = async () => {
-    const updatedGame = await stand(game.id);
-    setGame(updatedGame);
+    setIsLoading(true);
+    setError(null);
+    try {
+      const updatedGame = await stand(game.id);
+      setGame(updatedGame);
+    } catch (err) {
+      setError('Failed to stand. Please try again.');
+      console.error('Error standing:', err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleNewGameAfterRound = () => {
     setGame(null);
     setShowBettingForm(true);
     setStartingBalance(Number(game.player_balance));
+    setError(null);
   };
 
   return (
@@ -40,6 +70,18 @@ function App() {
         <div className="col-md-8">
           <h1 className="text-center mb-4">♠ Blackjack ♥</h1>
 
+          {error && (
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              <strong>Error:</strong> {error}
+              <button
+                type="button"
+                className="btn-close"
+                onClick={() => setError(null)}
+                aria-label="Close"
+              ></button>
+            </div>
+          )}
+
           {!game && showBettingForm && (
             <BettingForm
               startingBalance={startingBalance}
@@ -47,6 +89,7 @@ function App() {
               betAmount={betAmount}
               setBetAmount={setBetAmount}
               onStartGame={handleNewGame}
+              isLoading={isLoading}
             />
           )}
 
@@ -76,6 +119,7 @@ function App() {
                 onHit={handleHit}
                 onStand={handleStand}
                 onNewGame={handleNewGameAfterRound}
+                isLoading={isLoading}
               />
             </div>
           )}

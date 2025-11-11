@@ -1,6 +1,6 @@
 import React from 'react';
 
-const GameControls = ({ gameStatus, onHit, onStand, onNewGame }) => {
+const GameControls = ({ gameStatus, onHit, onStand, onNewGame, isLoading = false }) => {
   const getStatusMessage = (status) => {
     switch (status) {
       case 'player_wins':
@@ -39,11 +39,33 @@ const GameControls = ({ gameStatus, onHit, onStand, onNewGame }) => {
       <div className="text-center">
         {gameStatus === 'in_progress' && (
           <div>
-            <button className="btn btn-primary btn-lg me-2" onClick={onHit}>
-              Hit
+            <button
+              className="btn btn-primary btn-lg me-2"
+              onClick={onHit}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Loading...
+                </>
+              ) : (
+                'Hit'
+              )}
             </button>
-            <button className="btn btn-warning btn-lg" onClick={onStand}>
-              Stand
+            <button
+              className="btn btn-warning btn-lg"
+              onClick={onStand}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                  Loading...
+                </>
+              ) : (
+                'Stand'
+              )}
             </button>
           </div>
         )}

@@ -5,7 +5,8 @@ const BettingForm = ({
   setStartingBalance,
   betAmount,
   setBetAmount,
-  onStartGame
+  onStartGame,
+  isLoading = false
 }) => {
   return (
     <div className="card p-4 mb-4">
@@ -20,6 +21,7 @@ const BettingForm = ({
           step="50"
           value={startingBalance}
           onChange={(e) => setStartingBalance(Number(e.target.value))}
+          disabled={isLoading}
         />
       </div>
       <div className="mb-3">
@@ -34,15 +36,23 @@ const BettingForm = ({
             max={startingBalance}
             value={betAmount}
             onChange={(e) => setBetAmount(Number(e.target.value))}
+            disabled={isLoading}
           />
         </div>
       </div>
       <button
         className="btn btn-success btn-lg w-100"
         onClick={onStartGame}
-        disabled={betAmount > startingBalance || betAmount < 5}
+        disabled={betAmount > startingBalance || betAmount < 5 || isLoading}
       >
-        Start Game
+        {isLoading ? (
+          <>
+            <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Starting...
+          </>
+        ) : (
+          'Start Game'
+        )}
       </button>
     </div>
   );
