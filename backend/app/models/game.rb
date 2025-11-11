@@ -5,6 +5,27 @@ class Game < ApplicationRecord
 
   after_create :deal_initial_cards
 
+  # Class method to encapsulate game creation logic
+  def self.start_new_game(starting_balance: 100, bet_amount: 5)
+    # Create and shuffle deck
+    deck = Deck.create
+    deck.shuffle!
+
+    # Create hands for player and dealer
+    player_hand = Hand.create
+    dealer_hand = Hand.create
+
+    # Create game with initial state
+    create(
+      deck: deck,
+      player_hand: player_hand,
+      dealer_hand: dealer_hand,
+      status: 'in_progress',
+      player_balance: starting_balance.to_f - bet_amount.to_f,
+      bet_amount: bet_amount.to_f
+    )
+  end
+
   def deal_initial_cards
     2.times do
       player_hand.add_card(deck.draw)

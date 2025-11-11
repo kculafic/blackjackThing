@@ -1,21 +1,8 @@
 class GamesController < ApplicationController
   def create
-    deck = Deck.create
-    deck.shuffle!
-
-    player_hand = Hand.create
-    dealer_hand = Hand.create
-
-    starting_balance = params[:starting_balance] || 100
-    bet_amount = params[:bet_amount] || 5
-
-    game = Game.create(
-      deck: deck,
-      player_hand: player_hand,
-      dealer_hand: dealer_hand,
-      status: 'in_progress',
-      player_balance: starting_balance.to_f - bet_amount.to_f,
-      bet_amount: bet_amount.to_f
+    game = Game.start_new_game(
+      starting_balance: params[:starting_balance] || 100,
+      bet_amount: params[:bet_amount] || 5
     )
 
     render json: game_state(game), status: :created
