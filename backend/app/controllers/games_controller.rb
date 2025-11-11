@@ -28,6 +28,19 @@ class GamesController < ApplicationController
   private
 
   def game_state(game)
+    dealer_cards = game.dealer_hand.cards
+    dealer_value = game.dealer_hand.calculate_value
+
+    # Hide dealer's second card during active play
+    if game.status == 'in_progress'
+      dealer_cards = [
+        dealer_cards.first,
+        { suit: 'hidden', rank: 'hidden' }
+      ]
+      # Calculate value of only the visible card
+      dealer_value = calculate_card_value(dealer_cards.first)
+    end
+
     {
       id: game.id,
       status: game.status,
@@ -38,9 +51,21 @@ class GamesController < ApplicationController
         value: game.player_hand.calculate_value
       },
       dealer_hand: {
-        cards: game.dealer_hand.cards,
-        value: game.dealer_hand.calculate_value
+        cards: dealer_cards,
+        value: dealer_value
       }
     }
+  end
+
+  def calculate_card_value(card)
+    rank = card['rank'] || card[:rank]
+    case rank
+    when 'A'
+      11
+    when 'J', 'Q', 'K'
+      10
+    else
+      rank.to_i
+    end
   end
 end

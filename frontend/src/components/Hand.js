@@ -9,7 +9,13 @@ const Hand = ({ title, cards, value, backgroundColor = '#f8f9fa' }) => {
         <p className="text-muted">Value: {value}</p>
         <div className="d-flex flex-wrap gap-2 justify-content-center">
           {cards.map((card, index) => (
-            <Card key={index} suit={card.suit} rank={card.rank} />
+            card.suit === 'hidden' ? (
+              <div key={index} className="playing-card card-back">
+                <div className="card-back-pattern">🂠</div>
+              </div>
+            ) : (
+              <Card key={index} suit={card.suit} rank={card.rank} />
+            )
           ))}
         </div>
       </div>
