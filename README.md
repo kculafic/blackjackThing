@@ -2,6 +2,8 @@
 
 A full-stack traditional casino-style Blackjack game with Rails API backend and React frontend.
 
+https://github.com/user-attachments/assets/d9610986-9ceb-46c9-aeec-853d5f9770a8
+
 ## Features
 
 - Authentic Blackjack gameplay with proper rules (dealer hits to 17, hidden dealer card, etc.)
