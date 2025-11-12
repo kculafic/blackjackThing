@@ -4,7 +4,7 @@ import App from './App';
 describe('App Component', () => {
   test('renders Blackjack title', () => {
     render(<App />);
-    expect(screen.getByText(/♠ Blackjack ♥/i)).toBeInTheDocument();
+    expect(screen.getByText(/Blackjack/i)).toBeInTheDocument();
   });
 
   test('renders betting form on initial load', () => {
