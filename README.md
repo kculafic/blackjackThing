@@ -146,7 +146,9 @@ Rails best practice - game logic belongs in models, not controllers. Makes testi
 ## Common Issues
 
 **CORS errors?** Restart Rails server after changing `config/initializers/cors.rb`
+
 **Port in use?** Kill process: `lsof -ti:3000 | xargs kill -9`
+
 **Tests failing?** Backend returns decimals as strings - wrap in `Number()` before `.toFixed()`
 
 ---
