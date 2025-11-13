@@ -27,8 +27,8 @@ https://github.com/user-attachments/assets/d9610986-9ceb-46c9-aeec-853d5f9770a8
 
 ```bash
 # Clone repo
-git clone <your-repo-url>
-cd BlackjackThing
+git clone <https://github.com/kculafic/blackjackThing.git>
+cd blackjackThing
 
 # Backend setup
 cd backend
